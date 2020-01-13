@@ -1,0 +1,9 @@
+
+select{
+    max-width: 200px;
+}
+
+.calender-wrapper{
+    justify-content: center;
+    display: grid;
+}

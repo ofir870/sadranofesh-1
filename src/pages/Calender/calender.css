@@ -1,0 +1,17 @@
+.calender{
+    padding: 30px;
+    width: fit-content;
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px solid;
+    background: rgb(255, 255, 255);
+    color:rgb(128, 128, 128);
+    user-select: none;
+    cursor: pointer;
+}
+
+.calender-container{
+    display: flex; 
+     justify-content: center;
+    background-color: rgb(168, 219, 168);
+    
+}
