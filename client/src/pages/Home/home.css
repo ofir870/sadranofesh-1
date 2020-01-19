@@ -7,3 +7,6 @@ select{
     justify-content: center;
     display: grid;
 }
+option{
+    text-align: left;
+}

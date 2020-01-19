@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import './links.css'
 
 const Collapse = styled.div.attrs({
     className: 'collpase navbar-collapse',
@@ -17,42 +18,33 @@ const List = styled.div.attrs({
 const Item = styled.div.attrs({
     className: 'collpase navbar-collapse',
 })`
-
+direction: rtl;
+color:black;
 `
 // 
 
 class Links extends Component {
     render() {
         return (
-            
+
             <React.Fragment>
-                <Link to="/home" className="navbar-brand">
-                   סידור נופש
+                <Link to="/home" className="navbar-black">
+                    סידור נופש
                 </Link>
                 <Collapse>
                     <List>
-                        <Item>
-                           
-                        </Item>
-                        <Item>
-                            <Link to="/admin" className="nav-link">
-                                דף ניהול
-                            </Link>
-                        </Item>
-                        <Item>
-                            
-                        </Item>
-                        <Item>
-                            <Link to="/" className="nav-link">
-                                לוג אין
-                            </Link>
-                        </Item>
+                        
+                    
+                        <div className="user-name">
+                            שלום אופיר
+    
+                        </div>
                     </List>
                 </Collapse>
             </React.Fragment>
-       
-        
-        
+
+
+
         )
     }
 }

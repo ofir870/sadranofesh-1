@@ -1,6 +1,6 @@
 import React from 'react';
 import './admin.css';
-import { Register, GetUsers } from '../'
+import {OrdersHistory } from '../'
 import { Link } from 'react-router-dom'
 
 
@@ -15,14 +15,15 @@ class Admin extends React.Component {
     }
     render() {
         return (
-            <div className="wrapper">hello Admin
-           <Register />
-                
-                <GetUsers />
-               
-                <Link to="/orders" className="nav-link">
-                    הזמנות
+            <div className="wrapper">
+                <Link to="/admin/getUsers" className="nav-link">
+                    ניהול משתמשים
                             </Link>
+
+           <OrdersHistory />
+
+                
+
 
             </div>
         )

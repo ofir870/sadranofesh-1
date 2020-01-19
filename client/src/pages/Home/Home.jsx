@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Calender } from '../'
+import Calendar from 'react-calendar';
 import "./home.css"
+import api from '../../api'
 
 export default class Home extends Component {
 
@@ -8,14 +9,8 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: {
-                0: new Date(),
-                1: new Date(),
-            },
-
-            userName: "",
-            aproved: false,
-            isAnswar: false,
+            userName: "ofir",
+            aproved: "waiting",
             isfromBeerot: null,
             note: "",
             startDate: new Date(),
@@ -27,7 +22,7 @@ export default class Home extends Component {
         this.onChangeUserName = this.onChangeUserName.bind(this)
         this.onChangeAproved = this.onChangeAproved.bind(this)
         this.onChangeNote = this.onChangeNote.bind(this)
-        this.onChangeDate = this.onChangeDate.bind(this)
+        this.onChange = this.onChange.bind(this)
         this.onChangeIsAnswar = this.onChangeIsAnswar.bind(this)
         this.onChangeIsFromBeerot = this.onChangeIsFromBeerot.bind(this)
         this.onChangePrice = this.onChangePrice.bind(this)
@@ -40,7 +35,7 @@ export default class Home extends Component {
         this.setState({
             userName: e.target.value
         });
- 
+
     }
 
     onChangePrice(e) {
@@ -80,34 +75,50 @@ export default class Home extends Component {
         }
     }
 
-    onSubmit(e) {
+    onSubmit = async (e) => {
         e.preventDefault();
+
         const order = {
             userName: this.state.userName,
             aproved: this.state.aproved,
-            isAnswar: this.state.isAnswar,
             isFromBeerot: this.state.isFromBeerot,
             price: this.state.price,
             note: this.state.note,
             startDate: this.state.startDate,
             endDate: this.state.endDate
         }
+        if (order.isFromBeerot === "בחר") {
+            alert("ההזמנה לא נשלחה: נא לבחור האם אתה חבר")
+            return
+        }
+        await api.createOrder(order).then(
 
+            console.log(' order', order)
 
-
-        console.log(order);
-
-        // window.location = '/orders'
-    }
-
-    onChangeDate = date => {
-
-        this.setState({ date })
+        )
+        alert("Order Added sucssafuly")
 
         this.setState({
-            startDate: this.state.date[0],
-            endDate: this.state.date[1]
+            startDate: new Date(),
+            endDate: new Date(),
+            price: "",
+            note: "",
+            isFromBeerot: ""
         })
+    }
+
+
+
+
+    onChange = date => {
+
+
+        this.setState({
+            startDate: date[0],
+            endDate: date[1]
+        })
+
+
     }
 
     render() {
@@ -116,20 +127,12 @@ export default class Home extends Component {
 
                 <form className="order-form" onSubmit={this.onSubmit}>
                     <div className="calender-wrapper">
-                        <Calender date={this.state.date[0]} onChange={this.onChangeDate} />
-                    </div>
-                    <div>
-                        <label className="w-100 text-right">
-                            שם משתמש
-            </label>
-                        <input
+                        <Calendar
 
-                            className="form-group"
-                            name="username"
-                            value={this.state.userName}
-                            required
-                            onChange={this.onChangeUserName}  >
-                        </input>
+                         selectRange={true}
+                         onChange={this.onChange}
+                     
+                      />
                     </div>
 
                     <label className="w-100 text-right">
@@ -137,16 +140,30 @@ export default class Home extends Component {
             </label>
                     <div className="col">
                         <select
+                            dir="rtl"
                             className="form-control form-control-sm"
                             name="isBeerot"
-                            value={this.state.isfromBeerot}
+
                             required
                             onChange={this.onChangeIsFromBeerot}
                         >
-                            <option value="">Select here...</option>
-                            <option value={true}>Yes</option>
-                            <option value={false}>No</option>
+                            <option dir="rtl">בחר</option>
+                            <option value={true}>כן</option>
+                            <option value={false}>לא</option>
                         </select>
+                    </div>
+                    <div>
+                        <label className="w-100 text-right">
+                            שלח הודעה למנהל
+            </label>
+                        <textarea
+
+                            className="form-group text-right"
+                            name="message"
+                            value={this.state.note}
+                            required
+                            onChange={this.onChangeNote}  >
+                        </textarea>
                     </div>
 
                     <div className="form-group">

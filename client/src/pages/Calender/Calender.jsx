@@ -7,7 +7,7 @@ class Calender extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: new Date(),
+            
             
         }
     }
@@ -22,10 +22,12 @@ class Calender extends React.Component {
 
                 <div className="calender-container">
                     <Calendar calendarType="Hebrew"
-                        activeStartDate="true"
-                        selectRange="true"
+                        // activeStartDate={this.state.date}
+                        selectRange={true}
                         onChange={this.props.onChange}
+                        onClickDay={this.props.onClickDay}
                         value={this.props.date}
+
                         // tileDisabled={(e)=>{
                         //     {console.log(e)}
                         // }}

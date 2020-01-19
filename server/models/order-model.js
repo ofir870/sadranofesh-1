@@ -7,8 +7,7 @@ const Order = new Schema(
         endDate: { type: String, required: true },
         userName: { type: String, required: true },
         price: { type: String},
-        aproved: { type: Boolean, required: true },
-        isAnswar: { type: Boolean, required: true },
+        aproved: { type: String, required: true },
         isFromBeerot:{type: Boolean, required:true},
         note: { type: String, required: false }
         

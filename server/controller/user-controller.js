@@ -53,6 +53,7 @@ updateUser = async (req, res) => {
         user.name = body.name
         user.password = body.password
         user.message = body.message
+        user.email = body.email
         user
             .save()
             .then(() => {
