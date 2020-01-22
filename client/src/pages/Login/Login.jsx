@@ -48,10 +48,10 @@ class Login extends React.Component {
                   <br></br>
                   <input type="submit" placeholder="submit" formAction=""></input>
               </form>
-
+          <div>
               {this.state.password}
               {this.state.userName}
-              
+              </div>
             </div>
         )
     }

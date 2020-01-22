@@ -8,7 +8,9 @@ router.post('/order', Orderctrl.createOrder)
 
 // router.put('/user/:id', Orderctrl.updateUser)
 // router.delete('/user/:id', Orderctrl.deleteUser)
-// router.post('/user-by-id/:id', Orderctrl.getUserById)
-router.post('/get-Orders', Orderctrl.getOrders)
+router.post('/order-by-id/:id', Orderctrl.getOrderById)
+router.post('/get-Orders', Orderctrl.getAllOrders)
+router.post('/get-not-aproved-orders', Orderctrl.getNotAprovedOrders)
+router.put('/update-order/:id', Orderctrl.updateOrder)
 
 module.exports = router

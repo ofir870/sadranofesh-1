@@ -5,7 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import { NavBar } from '../components'
-import { Login, Admin, OrdersHistory, Home ,GetUsers, Register} from '../pages'
+import { Login, Admin, OrdersHistory, Home ,ManageUsers, Register} from '../pages'
 
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -28,15 +28,14 @@ class App extends Component {
         <Route exact path="/admin/register">
           <Register path="../pages" />
         </Route>
-        <Route exact path="/admin">
-          <Admin path="../pages" />
+      
+        <Route exact path="/admin/ManageUsers">
+          <ManageUsers path="../pages" />
         </Route>
-        <Route exact path="/admin/getUsers">
-          <GetUsers path="../pages" />
-        </Route>
-        <Route exact path="/GetOrders">
+        <Route exact path="/admin/ordershistory">
           <OrdersHistory path="../pages" />
         </Route>
+      
 
       </Router>
     )

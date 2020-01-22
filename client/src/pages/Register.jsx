@@ -8,6 +8,7 @@ export default class getUsersTest extends Component {
         super(props);
 
         this.state = {
+            
             name: "",
             password: "",
             message: "",
@@ -43,6 +44,7 @@ export default class getUsersTest extends Component {
     }
 
     onSubmit = async (e) => {
+        
         e.preventDefault();
 
         const user = {
@@ -64,6 +66,9 @@ export default class getUsersTest extends Component {
             message: "",
             email: ""
         })
+
+
+        window.location.assign("http://localhost:3000/admin/getUsers")
     }
     render() {
         return (

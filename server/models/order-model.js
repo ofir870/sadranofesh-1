@@ -11,7 +11,7 @@ const Order = new Schema(
         isFromBeerot:{type: Boolean, required:true},
         note: { type: String, required: false }
         
-    },
+    },  
 
     { timestamps: true },
 )

@@ -1,31 +1,29 @@
 import React from 'react';
 import './admin.css';
-import {OrdersHistory } from '../'
 import { Link } from 'react-router-dom'
+import Orders from '../Orders';
 
 
 class Admin extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
 
-        }
-
-
-    }
     render() {
         return (
             <div className="wrapper">
-                <Link to="/admin/getUsers" className="nav-link">
-                    ניהול משתמשים
-                            </Link>
-
-           <OrdersHistory />
-
-                
-
-
+                <div className="links">
+                    <Link to="/admin/ManageUsers" className="nav-link">
+                        <button className="button"><span>ניהול משתמשים</span></button>
+                    </Link>
+                    <Link to="/admin/ordershistory" className="nav-link">
+                        <button className="button"><span>היסטוריית הזמנות</span></button>
+                    </Link>
+                </div>
+                <div className="order">
+                    <Orders />
+                </div>
             </div>
+
+
+
         )
     }
 }

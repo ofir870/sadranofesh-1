@@ -10,3 +10,8 @@ select{
 option{
     text-align: left;
 }
+
+.button-wrapper{
+    justify-content: center;
+    display: grid;
+}

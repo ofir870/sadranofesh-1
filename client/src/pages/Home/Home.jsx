@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import Calendar from 'react-calendar';
-import "./home.css"
-import api from '../../api'
+import "./home.css";
+import api from '../../api';
+import { Button } from 'react-bootstrap';
+import Popup from "reactjs-popup";
 
 export default class Home extends Component {
 
@@ -28,6 +30,8 @@ export default class Home extends Component {
         this.onChangePrice = this.onChangePrice.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
 
+        this.changePrice = this.changePrice.bind(this)
+
 
     }
 
@@ -49,13 +53,26 @@ export default class Home extends Component {
             isAnswar: e.target.value
         });
     }
-
+    changePrice(isMemberOfBeerot) {
+        if (isMemberOfBeerot === "true") {
+            this.setState({
+                price: 50
+            })
+        } else {
+            this.setState({
+                price: 350
+            })
+        }
+    }
     onChangeIsFromBeerot(e) {
+
         this.setState({
             isFromBeerot: e.target.value,
-            price: 10 * 10
 
         });
+        this.changePrice(e.target.value)
+
+
 
     }
     onChangeNote(e) {
@@ -87,6 +104,9 @@ export default class Home extends Component {
             startDate: this.state.startDate,
             endDate: this.state.endDate
         }
+
+        order.startDate = order.startDate.toDateString()
+        order.endDate = order.endDate.toDateString()
         if (order.isFromBeerot === "בחר") {
             alert("ההזמנה לא נשלחה: נא לבחור האם אתה חבר")
             return
@@ -105,10 +125,8 @@ export default class Home extends Component {
             note: "",
             isFromBeerot: ""
         })
+        window.location.assign("http://localhost:3000/home")
     }
-
-
-
 
     onChange = date => {
 
@@ -128,41 +146,44 @@ export default class Home extends Component {
                 <form className="order-form" onSubmit={this.onSubmit}>
                     <div className="calender-wrapper">
                         <Calendar
-
-                         selectRange={true}
-                         onChange={this.onChange}
-                     
-                      />
+                            activeStartDate={new Date()}
+                            selectRange={true}
+                            onChange={this.onChange}
+                        />
                     </div>
-
-                    <label className="w-100 text-right">
-                        האם ההזמנה היא לחבר בארות יצחק?
+                    
+                    <div className="button-wrapper">
+                        <Popup trigger={<Button onClick={this.onClickButton} variant="secondary" size="lg">
+                            להזמנה בחר תאריכים ולחץ עליי
+  </Button>} position="bottom center" >
+                            <label className="w-100 text-right">
+                                האם ההזמנה היא לחבר בארות יצחק?
             </label>
-                    <div className="col">
-                        <select
-                            dir="rtl"
-                            className="form-control form-control-sm"
-                            name="isBeerot"
-
-                            required
-                            onChange={this.onChangeIsFromBeerot}
-                        >
-                            <option dir="rtl">בחר</option>
-                            <option value={true}>כן</option>
-                            <option value={false}>לא</option>
-                        </select>
-                    </div>
-                    <div>
+            
+                            <div className="col"  >
+                                <select
+                                    dir="rtl"
+                                    className="form-control form-control-sm"
+                                    name="isBeerot"
+                                    required
+                                    onChange={this.onChangeIsFromBeerot}
+                                >
+                                    <option dir="rtl">בחר</option>
+                                    <option value={true}>כן</option>
+                                    <option value={false}>לא</option>
+                                </select>
+                            </div>
+                    <div className="form-group item-centerd">
                         <label className="w-100 text-right">
                             שלח הודעה למנהל
             </label>
                         <textarea
 
-                            className="form-group text-right"
-                            name="message"
-                            value={this.state.note}
-                            required
-                            onChange={this.onChangeNote}  >
+className="form-group text-right"
+name="message"
+value={this.state.note}
+required
+onChange={this.onChangeNote}  >
                         </textarea>
                     </div>
 
@@ -172,12 +193,12 @@ export default class Home extends Component {
 
                     </div>
 
-                    <h4>price:{this.state.price}</h4>
+                    <h4 className="text-right">  מחיר הדירה ליום אחד: {this.state.price}</h4>
+</Popup>
+</div>
                 </form>
 
-                <div>
-                    <h3>start:{this.state.startDate.toDateString()} </h3><h3>end:{this.state.endDate.toDateString()}</h3>
-                </div>
+
             </div>
 
 
