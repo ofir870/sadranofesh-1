@@ -94,7 +94,7 @@ class Orders extends Component {
         return (
 
             <div>
-                <h1 id='title'>הזמנות</h1>
+                <h1 id='title'>  הזמנות לאישור </h1>
                 <table id='users'>
                     <tbody>
                         <tr>{this.renderTableHeader()}</tr>
