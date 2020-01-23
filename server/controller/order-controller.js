@@ -36,45 +36,6 @@ createOrder = (req, res) => {
         })
 }
 
-// updateOrder = async (req, res) => {
-//     const body = req.body
-
-//     if (!body) {
-//         return res.status(400).json({
-//             success: false,
-//             error: 'You must provide a body to update',
-//         })
-//     }
-
-//     User.findOne({ _id: req.params.id }, (err, user) => {
-//         if (err) {
-//             return res.status(404).json({
-//                 err,
-//                 message: 'Order not found!',
-//             })
-//         }
-//         user.name = body.name
-//         user.password = body.password
-//         user.message = body.message
-//         user.email = body.email
-//         user
-//             .save()
-//             .then(() => {
-//                 return res.status(200).json({
-//                     success: true,
-//                     id: user._id,
-//                     message: 'User updated!',
-//                 })
-//             })
-//             .catch(error => {
-//                 return res.status(404).json({
-//                     error,
-//                     message: 'User not updated!',
-//                 })
-//             })
-//     })
-// }
-
 
 getAllOrders = async (req, res) => {
     await Order.find({}, (err, order) => {
@@ -100,6 +61,20 @@ getNotAprovedOrders = async (req, res) => {
             return res
                 .status(404)
                 .json({ success: false, error: `Order not found` })
+        }
+        return res.status(200).json({ success: true, data: order })
+    }).catch(err => console.log(err))
+}
+
+getOrdersByUserName = async (req, res) => {
+    await Order.find({userName:req.params.username}, (err, order) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!order.length) {
+            return res
+                .status(404)
+                .json({ success: false, error: `Order with this username didnet found` })
         }
         return res.status(200).json({ success: true, data: order })
     }).catch(err => console.log(err))
@@ -156,9 +131,18 @@ getOrderById = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
-
+deleteOrder = async (req, res) => {
+    await Order.findOneAndDelete({ _id: req.params.id }, (err, order) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        return res.status(200).json({ success: true, data: order })
+    }).catch(err => console.log(err))
+}
 module.exports = {
+    deleteOrder,
     createOrder,
+    getOrdersByUserName,
     getAllOrders,
     getNotAprovedOrders,
     getOrderById,

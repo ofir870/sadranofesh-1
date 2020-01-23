@@ -11,13 +11,14 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: "ofir",
+            userName: "michal",
             aproved: "waiting",
             isfromBeerot: null,
             note: "",
             startDate: new Date(),
             price: 0,
             endDate: new Date(),
+            orders: []
 
         }
 
@@ -29,10 +30,81 @@ export default class Home extends Component {
         this.onChangeIsFromBeerot = this.onChangeIsFromBeerot.bind(this)
         this.onChangePrice = this.onChangePrice.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
-
+        this.deleteOrder = this.deleteOrder.bind(this)
         this.changePrice = this.changePrice.bind(this)
 
 
+    }
+
+    componentDidMount = async () => {
+
+        console.log(this.state.userName)
+        await api.getOrdersByUserName(this.state.userName).then(orders => {
+            console.log(orders)
+
+            this.setState({
+                orders: orders.data.data
+
+            })
+
+
+            console.log(' Aproved-orders-List -> render -> orders', orders)
+        })
+    }
+
+
+    componentDidMount = async () => {
+
+        this.setState({
+            userName: "michal"
+        })
+        console.log(this.state.userName)
+        await api.getOrdersByUserName(this.state.userName).then(orders => {
+            console.log(orders)
+
+            this.setState({
+                orders: orders.data.data
+
+            })
+
+
+            console.log(' Aproved-orders-List -> render -> orders', orders)
+        })
+    }
+    deleteOrder(id) {
+        api.deleteUserById(id).then(() => {
+            let index = this.state.orders.findIndex((order) => order.id = id)
+            let array = this.state.orders
+            array.splice(index, 1)
+            this.setState({
+                orders: array
+            })
+        })
+    }
+    renderTableData() {
+        return this.state.orders.map((orders, index) => {
+            const { _id, startDate, endDate, aproved, note } = orders //destructuring
+            return (
+                <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{startDate}</td>
+                    <td>{endDate}</td>
+                    <td>{note}</td>
+                    <td>{aproved}</td>
+
+
+
+                    <td  > <input onClick={() => this.deleteOrder(_id)} type="button" value="בטל" /></td>
+                </tr>
+            )
+        })
+    }
+
+    renderTableHeader() {
+        let header = ["מספר ", "תראיך התחלה", "תאריך סיום", " הודעה", "האם ההזמנה אושרה", "בטל"]
+        return header.map((key, index) => {
+            return <th key={index}>{key.toUpperCase()}</th>
+        })
     }
 
     onChangeUserName(e) {
@@ -151,7 +223,7 @@ export default class Home extends Component {
                             onChange={this.onChange}
                         />
                     </div>
-                    
+
                     <div className="button-wrapper">
                         <Popup trigger={<Button onClick={this.onClickButton} variant="secondary" size="lg">
                             להזמנה בחר תאריכים ולחץ עליי
@@ -159,7 +231,7 @@ export default class Home extends Component {
                             <label className="w-100 text-right">
                                 האם ההזמנה היא לחבר בארות יצחק?
             </label>
-            
+
                             <div className="col"  >
                                 <select
                                     dir="rtl"
@@ -173,31 +245,34 @@ export default class Home extends Component {
                                     <option value={false}>לא</option>
                                 </select>
                             </div>
-                    <div className="form-group item-centerd">
-                        <label className="w-100 text-right">
-                            שלח הודעה למנהל
+                            <div className="form-group item-centerd">
+                                <label className="w-100 text-right">
+                                    שלח הודעה למנהל
             </label>
-                        <textarea
 
-className="form-group text-right"
-name="message"
-value={this.state.note}
-required
-onChange={this.onChangeNote}  >
-                        </textarea>
+                                <textarea className="form-group text-right" name="message"
+                                    value={this.state.note} required onChange={this.onChangeNote}  >
+                                </textarea>
+                            </div>
+
+                            <div className="form-group">
+
+                                <input type="submit" value="create order" className="btn btn-primary"></input>
+
+                            </div>
+                            <h5 className="text-right">  מחיר הדירה ליום: {this.state.price}</h5>
+                        </Popup>
                     </div>
-
-                    <div className="form-group">
-
-                        <input type="submit" value="create order" className="btn btn-primary"></input>
-
-                    </div>
-
-                    <h4 className="text-right">  מחיר הדירה ליום אחד: {this.state.price}</h4>
-</Popup>
-</div>
                 </form>
-
+                <div>
+                    <h1 id='title'> ההזמנות שלי </h1>
+                    <table id='users'>
+                        <tbody>
+                            <tr>{this.renderTableHeader()}</tr>
+                            {this.renderTableData()}
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
 

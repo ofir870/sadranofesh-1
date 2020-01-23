@@ -15,6 +15,9 @@ export const createOrder = order => api.post(`/order`, order).then(() => {});
 export const getOrders = () => api.post(`/get-orders`)
 export const getNotAprovedOrders = () => api.post(`/get-not-aproved-orders`)
 export const ordersAproved = (id, payload) => api.put(`/update-order/${id}`, payload)
+export const deleteOrderById = id => api.delete(`/delete-order/${id}`)
+export const getOrdersByUserName = username => api.post(`/get-orders-by-username/${username}`)
+
 
 
 const apis = {
@@ -26,7 +29,8 @@ const apis = {
   deleteUserById,
   getUserById,
   getNotAprovedOrders,
-  ordersAproved
+  ordersAproved,
+  getOrdersByUserName
 }
 
 export default apis
