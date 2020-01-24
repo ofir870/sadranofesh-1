@@ -5,10 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import { NavBar } from '../components'
-import { Login, Admin, OrdersHistory, Home ,ManageUsers, Register} from '../pages'
-
-
-import 'bootstrap/dist/css/bootstrap.min.css'
+import { Login, Admin, OrdersHistory, Home, ManageUsers, Register } from '../pages'
 
 
 class App extends Component {
@@ -28,14 +25,14 @@ class App extends Component {
         <Route exact path="/admin/register">
           <Register path="../pages" />
         </Route>
-      
+
         <Route exact path="/admin/ManageUsers">
           <ManageUsers path="../pages" />
         </Route>
         <Route exact path="/admin/ordershistory">
           <OrdersHistory path="../pages" />
         </Route>
-      
+
 
       </Router>
     )

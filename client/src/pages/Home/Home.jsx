@@ -52,25 +52,6 @@ export default class Home extends Component {
         })
     }
 
-
-    componentDidMount = async () => {
-
-        this.setState({
-            userName: "michal"
-        })
-        console.log(this.state.userName)
-        await api.getOrdersByUserName(this.state.userName).then(orders => {
-            console.log(orders)
-
-            this.setState({
-                orders: orders.data.data
-
-            })
-
-
-            console.log(' Aproved-orders-List -> render -> orders', orders)
-        })
-    }
     deleteOrder(id) {
         api.deleteUserById(id).then(() => {
             let index = this.state.orders.findIndex((order) => order.id = id)
@@ -89,8 +70,11 @@ export default class Home extends Component {
                     <td>{index + 1}</td>
                     <td>{startDate}</td>
                     <td>{endDate}</td>
+                    {/* { aproved === "אושר" &&
+                    <td style="backgroung-color:`green`">{aproved}</td>
+                    } */}
                     <td>{note}</td>
-                    <td>{aproved}</td>
+                    <td >{aproved}</td>
 
 
 
@@ -275,13 +259,6 @@ export default class Home extends Component {
                 </div>
 
             </div>
-
-
-
-
-
-
-
         )
     }
 }

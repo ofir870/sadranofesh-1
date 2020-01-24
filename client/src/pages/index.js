@@ -8,6 +8,4 @@ import OrdersHistory from './OrdersHistory'
 import Home from './Home/Home'
 import Orders from './Orders'
 
-
-
 export { Login, Calender ,Admin, Register,ManageUsers,OrdersHistory,Home,Orders}

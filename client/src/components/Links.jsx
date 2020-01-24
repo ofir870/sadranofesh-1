@@ -13,38 +13,28 @@ const List = styled.div.attrs({
     className: 'navbar-nav mr-auto',
 })``
 
-
-
 const Item = styled.div.attrs({
     className: 'collpase navbar-collapse',
 })`
 direction: rtl;
 color:black;
 `
-// 
 
 class Links extends Component {
     render() {
         return (
-
             <React.Fragment>
                 <Link to="/home" className="navbar-black">
                     סידור נופש
                 </Link>
                 <Collapse>
                     <List>
-                        
-                    
                         <div className="user-name">
                             שלום אופיר
-    
                         </div>
                     </List>
                 </Collapse>
             </React.Fragment>
-
-
-
         )
     }
 }
