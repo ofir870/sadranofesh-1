@@ -13,12 +13,7 @@ const List = styled.div.attrs({
     className: 'navbar-nav mr-auto',
 })``
 
-const Item = styled.div.attrs({
-    className: 'collpase navbar-collapse',
-})`
-direction: rtl;
-color:black;
-`
+
 
 class Links extends Component {
     render() {

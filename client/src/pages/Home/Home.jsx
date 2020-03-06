@@ -4,9 +4,9 @@ import "./home.css";
 import api from '../../api';
 import { Button } from 'react-bootstrap';
 import Popup from "reactjs-popup";
+import { NavBar } from '../../components'
 
 export default class Home extends Component {
-
 
     constructor(props) {
         super(props);
@@ -15,11 +15,14 @@ export default class Home extends Component {
             aproved: "waiting",
             isfromBeerot: null,
             note: "",
-            startDate: new Date(),
+            startDate: "",
             price: 0,
-            endDate: new Date(),
-            orders: []
-
+            endDate: "",
+            orders: [],
+            aprovedOrders: [],
+            datesArray: [],
+            color: "red",
+            value:""
         }
 
         this.onChangeUserName = this.onChangeUserName.bind(this)
@@ -33,30 +36,24 @@ export default class Home extends Component {
         this.deleteOrder = this.deleteOrder.bind(this)
         this.changePrice = this.changePrice.bind(this)
 
-
     }
 
-    
+    componentDidMount = () => {
 
-    componentDidMount = async () => {
+        api.getOrdersByUserName(this.state.userName).then(orders => {
 
-        console.log(this.state.userName)
-        await api.getOrdersByUserName(this.state.userName).then(orders => {
-            console.log(orders)
-
-            this.setState({
-                orders: orders.data.data
-
-            })
-
-
-            console.log(' Aproved-orders-List -> render -> orders', orders)
+            this.setState({ orders: orders.data.data })
         })
+
+            .then(api.getAprovedOrders().then(orders => {
+                console.log(orders)
+            }))
     }
 
     deleteOrder(id) {
-        api.deleteUserById(id).then(() => {
+        api.deleteOrderById(id).then(() => {
             let index = this.state.orders.findIndex((order) => order.id = id)
+
             let array = this.state.orders
             array.splice(index, 1)
             this.setState({
@@ -64,37 +61,60 @@ export default class Home extends Component {
             })
         })
     }
+    
     renderTableData() {
+   
+
+
         return this.state.orders.map((orders, index) => {
 
-            
-const Style = {
-    
-    "background-color": "black"
-}
-   
-    
-    
-
-
             const { _id, startDate, endDate, aproved, note } = orders //destructuring
-            return (
-                <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{startDate}</td>
-                    <td>{endDate}</td>
-                    {/* { aproved === "אושר" &&
-                    <td style="backgroung-color:`green`">{aproved}</td>
-                    } */}
-                    <td>{note}</td>
-                    <td >{aproved}</td>
+            if (aproved === "true") {
+                return (
 
+                    <tr style={{ backgroundColor: "#569834cd" }} key={index}>
+                        <td>{index + 1}</td>
+                        <td>{startDate}</td>
+                        <td>{endDate}</td>
+                        <td>{note}</td>
+                        <td >{aproved}</td>
+                        <td  > <input onClick={() => this.deleteOrder(_id)} type="button" value="בטל" /></td>
+                    </tr>
 
+                )
+            } if (aproved === "false") {
+                return (
 
-                    <td  > <input onClick={() => this.deleteOrder(_id)} type="button" value="בטל" /></td>
-                </tr>
-            )
+                    <tr style={{ backgroundColor: "#EA413A" }} key={index}>
+                        <td>{index + 1}</td>
+                        <td>{startDate}</td>
+                        <td>{endDate}</td>
+                        <td>{note}</td>
+                        <td  >{aproved}</td>
+                        <td  > <input onClick={() => this.deleteOrder(_id)} type="button" value="בטל" /></td>
+                    </tr>
+
+                )
+            }
+
+            if (aproved === "waiting") {
+                return (
+
+                    <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{startDate}</td>
+                        <td>{endDate}</td>
+                        <td>{note}</td>
+                        <td >{aproved}</td>
+                        <td  > <input onClick={() => this.deleteOrder(_id)} type="button" value="בטל" /></td>
+                    </tr>
+
+                )
+            }
         })
+
+
+
     }
 
     renderTableHeader() {
@@ -112,6 +132,8 @@ const Style = {
     }
 
     onChangePrice(e) {
+        let array = this.state.disabledDate.data.data
+        console.log(array)
         this.setState({
             price: e.target.value
         });
@@ -123,6 +145,8 @@ const Style = {
         });
     }
     changePrice(isMemberOfBeerot) {
+
+
         if (isMemberOfBeerot === "true") {
             this.setState({
                 price: 50
@@ -134,9 +158,15 @@ const Style = {
         }
     }
     onChangeIsFromBeerot(e) {
+        let value = e.target.value
+        if (value === 'true') {
+            value = true
+        } else {
+            value = false;
+        };
 
         this.setState({
-            isFromBeerot: e.target.value,
+            isFromBeerot: value,
 
         });
         this.changePrice(e.target.value)
@@ -199,25 +229,78 @@ const Style = {
 
     onChange = date => {
 
+        console.log("hello")
+    
+        console.log(date)   
 
+let chosedDates = [];
+
+    api.getAprovedOrders().then(orders => {
+        console.log([chosedDates]+ ":::::: >>>>>>>>>>> chosed dates")
+        console.log(this.state.datesArray +":::::: disabled dates")
+
+        
+    })
         this.setState({
             startDate: date[0],
             endDate: date[1]
         })
-
-
+        
     }
 
     render() {
+
+//get all aproved dates and disable them
+        Date.prototype.addDays = function (days) {
+            var date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }
+
+        let disabledDates = [];
+        if (this.state.datesArray.length === 0) {
+            api.getAprovedOrders().then(orders => {
+                for (let i in orders.data.data) {
+                    let newStartdate = new Date(orders.data.data[i].startDate)
+                    let newEndDate = new Date(orders.data.data[i].endDate)
+
+                    var dateArray = [];
+                    while (newStartdate <= newEndDate) {
+                        dateArray.push(newStartdate)
+                        newStartdate = newStartdate.addDays(1);
+                    }
+
+                    disabledDates = dateArray;
+                    this.state.datesArray.push(dateArray)
+
+                }
+
+                console.log([disabledDates]+ ":::::: disabled dates")
+                console.log(this.state.datesArray +":::::: chosed dates")
+
+            })
+        }
+
         return (
             <div>
-
+            <NavBar/>
+                
                 <form className="order-form" onSubmit={this.onSubmit}>
                     <div className="calender-wrapper">
                         <Calendar
                             activeStartDate={new Date()}
                             selectRange={true}
                             onChange={this.onChange}
+                        
+                            tileDisabled={({ date, view }) =>
+                                (view === 'month') && // Block day tiles only
+
+                                this.state.datesArray.some(disabledDate => disabledDate.some(disabledDate =>
+                                    date.getFullYear() === disabledDate.getFullYear() &&
+                                    date.getMonth() === disabledDate.getMonth() &&
+                                    date.getDate() === disabledDate.getDate()
+                                ))
+                            }
                         />
                     </div>
 
@@ -242,27 +325,41 @@ const Style = {
                                     <option value={false}>לא</option>
                                 </select>
                             </div>
-                            <div className="form-group item-centerd">
-                                <label className="w-100 text-right">
-                                    שלח הודעה למנהל
+                            {typeof this.state.isFromBeerot === "boolean" ?
+
+                                <div>
+                                    <div className="form-group item-centerd">
+                                        <label className="w-100 text-right">
+                                            שלח הודעה למנהל
             </label>
 
-                                <textarea className="form-group text-right" name="message"
-                                    value={this.state.note} required onChange={this.onChangeNote}  >
-                                </textarea>
-                            </div>
+                                        <textarea className="form-group text-right" name="message"
+                                            value={this.state.note} required onChange={this.onChangeNote}  >
+                                        </textarea>
+                                    </div>
 
-                            <div className="form-group">
 
-                                <input type="submit" value="create order" className="btn btn-primary"></input>
+                                    <div className="form-group">
 
-                            </div>
-                            <h5 className="text-right">  מחיר הדירה ליום: {this.state.price}</h5>
+                                        <input type="submit" value="create order" className="btn btn-primary"></input>
+
+                                        <h5 className="text-right">  מחיר הדירה ליום: {this.state.price}</h5>
+                                    </div>
+
+                                </div>
+
+                                :
+
+                                <div>
+
+                                </div>
+                            }
                         </Popup>
                     </div>
                 </form>
                 <div>
                     <h1 id='title'> ההזמנות שלי </h1>
+                    {this.state.isfromBeerot}
                     <table id='users'>
                         <tbody>
                             <tr>{this.renderTableHeader()}</tr>

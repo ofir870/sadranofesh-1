@@ -1,16 +1,15 @@
 .login{
     display: grid;
-    justify-content: center;
+    justify-content: space-around;
     padding:  30px;
     border-radius: 10px;
     box-shadow: 1px 1px 3px solid;
-    background: white;
-    color:gray;
-    user-select: none;
+    background-image: white;
     cursor: pointer;
-  
+    height: 700px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 400px
 }
 
-input{
-    margin-bottom: 10px;
-}
+

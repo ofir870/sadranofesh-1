@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import api from '../api'
-
+import { NavBar } from './../components'
 
 export default class OrdersHistory extends Component {
 
@@ -22,6 +22,7 @@ export default class OrdersHistory extends Component {
    
 
         renderTableData() {
+         
             return this.state.orders.map((orders, index) => {
                 const {startDate ,endDate , userName, aproved,note,createdAt} = orders //destructuring
                 return (
@@ -38,6 +39,7 @@ export default class OrdersHistory extends Component {
                     </tr>
                 )
             })
+      
         }
 
         renderTableHeader() {
@@ -50,8 +52,10 @@ export default class OrdersHistory extends Component {
 
         
         return (
+
             
                  <div>
+                     <NavBar/>
                 <h1 id='title'>היסטוריית הזמנות</h1>
                 <table id='users'>
                     <tbody>

@@ -9,6 +9,12 @@
   justify-content: space-around;
   grid-template-columns: auto auto;
 }
+.nav-link {
+  display: flex !important;
+  
+  justify-content: space-between !important;
+  padding: .5rem 1rem;
+}
 .button {
     border-radius: 4px;
     background-color: #f4511e;

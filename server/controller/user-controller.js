@@ -12,9 +12,9 @@ createUser = (req, res) => {
 
     const user = new User(body)
 
-    if (!user) {
-        return res.status(400).json({ success: false, error: err })
-    }
+    // if (!user) {
+    //     return res.status(400).json({ success: false, error: err  })
+    // }
 
     user
         .save()
@@ -29,6 +29,7 @@ createUser = (req, res) => {
             return res.status(400).json({
                 error,
                 message: 'User not created!',
+
             })
         })
 }
@@ -53,7 +54,6 @@ updateUser = async (req, res) => {
         user.name = body.name
         user.password = body.password
         user.message = body.message
-        user.email = body.email
         user
             .save()
             .then(() => {
@@ -78,7 +78,7 @@ deleteUser = async (req, res) => {
             return res.status(400).json({ success: false, error: err })
         }
         return res.status(200).json({ success: true, data: user })
-    }).catch(err => console.log(err))
+    }).catch(err => console.log(err ))
 }
 
 deleteAllUsers = async (req, res) => {
@@ -89,7 +89,7 @@ deleteAllUsers = async (req, res) => {
 
         if (!user) {
             return res
-                .status(404)
+                .status(200)
                 .json({ success: false, error: `User not found` })
         }
 
@@ -119,12 +119,34 @@ getUsers = async (req, res) => {
         }
         if (!user.length) {
             return res
-                .status(404)
+                .status(200)
                 .json({ success: false, error: `User not found` })
         }
         return res.status(200).json({ success: true, data: user })
     }).catch(err => console.log(err))
 }
+
+getUserByUserName = async (req, res) => {
+    await User.find({name:req.params.username}, (err, user,password) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!user.length) {
+            return res
+            .status(204)
+            .json({ success: false, error: `A user with this username dident found` })
+            
+        }
+
+        if(req.params.password !== user[0].password){
+            return res.status(404).json({ success: false, status: "wrong password" })
+            
+        }else{   
+            return res.status(200).json({ success: true, data: user[0].name })
+        }
+    }).catch(err => console.log(err))
+}
+
 
 module.exports = {
     createUser,
@@ -132,4 +154,5 @@ module.exports = {
     deleteUser,
     getUsers,
     getUserById,
+    getUserByUserName
 }

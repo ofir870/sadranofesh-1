@@ -44,7 +44,7 @@ getAllOrders = async (req, res) => {
         }
         if (!order.length) {
             return res
-                .status(404)
+                .status(400)
                 .json({ success: false, error: `Order not found` })
         }
         return res.status(200).json({ success: true, data: order })
@@ -59,7 +59,20 @@ getNotAprovedOrders = async (req, res) => {
         }
         if (!order.length) {
             return res
-                .status(404)
+                .status(400)
+                .json({ success: false, error: `Order not found` })
+        }
+        return res.status(200).json({ success: true, data: order })
+    }).catch(err => console.log(err))
+}
+getAprovedOrders = async (req, res) => {
+    await Order.find({aproved:"true"}, (err, order) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!order.length) {
+            return res
+                .status(400)
                 .json({ success: false, error: `Order not found` })
         }
         return res.status(200).json({ success: true, data: order })
@@ -73,8 +86,8 @@ getOrdersByUserName = async (req, res) => {
         }
         if (!order.length) {
             return res
-                .status(404)
-                .json({ success: false, error: `Order with this username didnet found` })
+                .status(400)
+                .json({ success: false, error: `Order with this username dident found` })
         }
         return res.status(200).json({ success: true, data: order })
     }).catch(err => console.log(err))
@@ -145,6 +158,7 @@ module.exports = {
     getOrdersByUserName,
     getAllOrders,
     getNotAprovedOrders,
+    getAprovedOrders,
     getOrderById,
     updateOrder
 }

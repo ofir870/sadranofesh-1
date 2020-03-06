@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import api from '../api'
 import '../style/ManageUsers.css'
-import { Link } from 'react-router-dom'
+
 
 class Orders extends Component {
     constructor(props) {
@@ -63,23 +63,26 @@ class Orders extends Component {
     }
 
     renderTableData() {
-        return this.state.orders.map((orders, index) => {
-            const { _id, startDate, endDate, userName, aproved, note, createdAt } = orders //destructuring
-            return (
-                <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{startDate}</td>
-                    <td>{endDate}</td>
-                    <td>{userName}</td>
-                    <td>{note}</td>
-                    <td>{aproved}</td>
-                    <td>{createdAt}</td>
+ 
+      
+            return this.state.orders.map((orders, index) => {
+                const { _id, startDate, endDate, userName, aproved, note, createdAt } = orders //destructuring
+                return (
+                    <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{startDate}</td>
+                        <td>{endDate}</td>
+                        <td>{userName}</td>
+                        <td>{note}</td>
+                        <td>{aproved}</td>
+                        <td>{createdAt.split("T")[0]}</td>
 
-                    <td  > <input onClick={() => this.updateOrderTrue(_id, aproved)} type="button" value="אשר" /></td>
-                    <td  > <input onClick={() => this.updateOrderFalse(_id, aproved)} type="button" value="בטל" /></td>
-                </tr>
-            )
-        })
+                        <td  > <input onClick={() => this.updateOrderTrue(_id, aproved)} type="button" value="אשר" /></td>
+                        <td  > <input onClick={() => this.updateOrderFalse(_id, aproved)} type="button" value="בטל" /></td>
+                    </tr>
+                )
+            })
+     
     }
 
     renderTableHeader() {

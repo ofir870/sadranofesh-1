@@ -1,60 +1,66 @@
-import React from 'react';
-import './login.css'; 
+import React, {useState,useContext} from 'react';
+import './login.css';
+import logo from '../../f2.jfif'
+import api from '../../api/index'
+
+import { useDispatch, useSelector } from 'react-redux';
+import { isLoggedIn } from '../../model/redux/actions';
 
 
 
 
 
 
+// useSelector(state => state.isLoggedIn);
+// console.log(isLoggedIn+"   reduxxx" )
+// const dispatch = useDispatch();
+
+// dispatch(isLoggedIn(isLoggedIn))
 
 class Login extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          userName: '',
-          password: ''
-        }
-        
+  constructor(props) {
+    super(props);
     
-        this.sendToDB = this.sendToDB.bind(this);
-      }
+    this.handleSubmit = this.handleSubmit.bind(this);
     
-      dbReady = {};
-    
-    
-     
-      sendToDB(e) {
-        e.preventDefault();
-        this.setState({
-          name:e.target.elements.userName.value,
-          phone:e.target.elements.password.value
-        })
-    
-        // this.dbReady = {
-        //   name:e.target.elements.userName.value,
-        //   phone:e.target.elements.password.value
-        // }
-        // console.dir(this.dbReady)
-    
+  }
+  
+  
+  handleSubmit(e) {
+    e.preventDefault();
+  
+   api.getUserByUserName( e.target.elements.userName.value,  e.target.elements.password.value).then(user => {
+      console.log(user)
+      if (user.data.success === true) {
+        this.props.changeIsLoggedIn()
+        // window.location.assign('http://localhost:3000/home')
+      } else {
+        alert("you enterd wrong parametrs")
       }
 
-    render() {
-        return (
-            <div className='login'>
-              <form onSubmit={this.sendToDB}>
-                  <input type="text" name="userName" autoFocus placeholder="userName"></input>
-                  <br></br>
-                  <input type="text" name="password" placeholder="password"></input>
-                  <br></br>
-                  <input type="submit" placeholder="submit" formAction=""></input>
-              </form>
-          <div>
-              {this.state.password}
-              {this.state.userName}
-              </div>
-            </div>
-        )
-    }
+      if (user.data.status === false){
+            alert("you enterd wrong parametrs")
+      }
+    })
+
+  }
+
+  render() {
+
+
+    return (
+      <div className='login' style={{ backgroundImage: `url(${logo})` }}>
+        <form onSubmit={this.handleSubmit}>
+          <input type="text" name="userName" autoFocus placeholder="userName" required="true"></input>
+          <br></br>
+          <input type="text" name="password" placeholder="password" required="true"></input>
+          <br></br>
+          <input type="submit" placeholder="submit" formAction=""></input>
+        </form>
+
+      </div>
+    )
+  }
 }
 
 export default Login;
