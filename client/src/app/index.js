@@ -32,7 +32,7 @@ class App extends Component {
 
         <UserContext.Provider value='hello all ' >
        
-        <Route exact path="/"><Login/></Route>
+        <Route exact path="/test"><Index/></Route>
         <Route exact path="/"><Login isLoggedIn={this.state.isLoggedIn} changeIsLoggedIn={this.changeIsLoggedIn}/></Route>
 
       

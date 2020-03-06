@@ -7,10 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isLoggedIn } from '../../model/redux/actions';
 
 
-
-
-
-
 // useSelector(state => state.isLoggedIn);
 // console.log(isLoggedIn+"   reduxxx" )
 // const dispatch = useDispatch();
