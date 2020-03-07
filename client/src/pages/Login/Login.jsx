@@ -26,8 +26,15 @@ class Login extends React.Component {
     e.preventDefault();
   
    api.getUserByUserName( e.target.elements.userName.value,  e.target.elements.password.value).then(user => {
-      console.log(user)
+      console.log(user.data.data.name)
+      
       if (user.data.success === true) {
+      
+        localStorage.setItem("sadranofesh875",user.data.data.id)
+        localStorage.setItem("name",user.data.data.name)
+
+        let test = localStorage.getItem("sadranofesh875")
+        console.log(test)
         this.props.changeIsLoggedIn()
         // window.location.assign('http://localhost:3000/home')
       } else {
@@ -47,7 +54,7 @@ class Login extends React.Component {
     return (
       <div className='login' style={{ backgroundImage: `url(${logo})` }}>
         <form onSubmit={this.handleSubmit}>
-          <input type="text" name="userName" autoFocus placeholder="userName" required="true"></input>
+          <input type="text" name="userName" auto Focus placeholder="userName" required="true"></input>
           <br></br>
           <input type="text" name="password" placeholder="password" required="true"></input>
           <br></br>

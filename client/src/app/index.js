@@ -10,6 +10,7 @@ import { Login, Admin, OrdersHistory, Home, ManageUsers, Register } from '../pag
 import { Index } from '../pages/Login/Index'
 import { UserContext } from '../model/context/userContext';
 
+
   
 class App extends Component {
   constructor(props) {
@@ -30,9 +31,10 @@ class App extends Component {
     return (
       <Router>
 
-        <UserContext.Provider value='hello all ' >
+        <UserContext.Provider value='hello all' >
        
         <Route exact path="/test"><Index/></Route>
+
         <Route exact path="/"><Login isLoggedIn={this.state.isLoggedIn} changeIsLoggedIn={this.changeIsLoggedIn}/></Route>
 
       

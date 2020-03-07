@@ -25,7 +25,7 @@ class Links extends Component {
                 <Collapse>
                     <List>
                         <div className="user-name">
-                            שלום אופיר
+                             שלום {localStorage.getItem("name")}
                         </div>
                     </List>
                 </Collapse>

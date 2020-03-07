@@ -15,3 +15,10 @@ option{
     justify-content: center;
     display: grid;
 }
+.date-div{
+    display: flex;
+    justify-content: center;
+}
+.react-calendar__tile:disabled{
+    background-color:#b9b3b3ab;
+}

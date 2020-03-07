@@ -134,7 +134,7 @@ getUserByUserName = async (req, res) => {
         if (!user.length) {
             return res
             .status(204)
-            .json({ success: false, error: `A user with this username dident found` })
+            .json({ success: false, error: `A user with this username was not found` })
             
         }
 
@@ -142,7 +142,7 @@ getUserByUserName = async (req, res) => {
             return res.status(404).json({ success: false, status: "wrong password" })
             
         }else{   
-            return res.status(200).json({ success: true, data: user[0].name })
+            return res.status(200).json({ success: true, data: {id: user[0]._id, name: user[0].name} })
         }
     }).catch(err => console.log(err))
 }
