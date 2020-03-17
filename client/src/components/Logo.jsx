@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import logo from '../f2.jfif'
 
 const Wrapper = styled.a.attrs({
+    
     className: 'navbar-brand',
 })`
 

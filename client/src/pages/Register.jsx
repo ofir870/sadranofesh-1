@@ -3,7 +3,7 @@ import api from '../api'
 import '../style/register.css'
 import { NavBar } from './../components'
 
-export default class getUsersTest extends Component {
+export default class register extends Component {
     constructor(props) {
         super(props);
 
@@ -11,12 +11,12 @@ export default class getUsersTest extends Component {
             
             name: "",
             password: "",
-            message: "",
+            
             user: []
         }
         this.onChangeName = this.onChangeName.bind(this)
         this.onChangePassword = this.onChangePassword.bind(this)
-        this.onChangeMessage = this.onChangeMessage.bind(this)
+       
         this.onSubmit = this.onSubmit.bind(this)
      
     }
@@ -32,12 +32,8 @@ export default class getUsersTest extends Component {
             password: e.target.value
         });
     }
-    onChangeMessage(e) {
-        this.setState({
-            message: e.target.value
-        });
-    }
- 
+    
+
 
      onSubmit  = async(e) => {
         
@@ -45,9 +41,9 @@ export default class getUsersTest extends Component {
 
         const user = {
             name: this.state.name,
-            password: this.state.password,
-            message: this.state.message
+            password: this.state.password
         }
+        
             try {
         const input = this.state.name
 
@@ -73,12 +69,9 @@ export default class getUsersTest extends Component {
 
         this.setState({
             name: "",
-            password: "",
-            message: ""
+            password: ""
         })
-
-
-        // window.location.assign("http://localhost:3000/admin/ManageUsers")
+        window.location.reload()
     }
     render() {
         return (
@@ -102,16 +95,6 @@ export default class getUsersTest extends Component {
                             className="form-control"
                             value={this.state.password}
                             onChange={this.onChangePassword}
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Enter Message: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
-                            value={this.state.message}
-                            onChange={this.onChangeMessage}
                         />
                     </div>
 

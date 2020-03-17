@@ -1,4 +1,4 @@
-import React, { Component ,useState} from 'react'
+import React, { Component, useState } from 'react'
 import Calendar from 'react-calendar';
 import "./home.css";
 import api from '../../api';
@@ -13,7 +13,7 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: localStorage.getItem("name"),
+            userName: sessionStorage.getItem("name"),
             aproved: "waiting",
             isfromBeerot: null,
             note: "",
@@ -25,6 +25,7 @@ export default class Home extends Component {
             datesArray: [],
             color: "red",
             value: "",
+            globalMesssages: [],
             disabledDates: []
         }
 
@@ -37,8 +38,10 @@ export default class Home extends Component {
         this.onChangePrice = this.onChangePrice.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
         this.deleteOrder = this.deleteOrder.bind(this)
+        this.onChangeGlobalMessages = this.onChangeGlobalMessages.bind(this)
         this.changePrice = this.changePrice.bind(this)
-        this.onClickButton = this.onClickButton.bind(this)
+        this.onClickMessages = this.onClickMessages.bind(this)
+
         this.usingState = this.usingState.bind(this)
 
     }
@@ -46,18 +49,20 @@ export default class Home extends Component {
     componentDidMount = () => {
 
         api.getOrdersByUserName(this.state.userName).then(orders => {
-
-            this.setState({ orders: orders.data.data })
+          console.log(orders.data.data)
+            // if (orders.data.data.length > 0) {
+                this.setState({ orders: orders.data.data })
+            // }
         })
 
-        // .then(api.getAprovedOrders().then(orders => {
 
-        // }))
+
+
     }
 
 
-     usingState() {
-     const [state, setstate] = useState("hellelelelelelele") 
+    usingState() {
+        const [state, setstate] = useState("hellelelelelelele")
     }
     deleteOrder(id) {
         api.deleteOrderById(id).then(() => {
@@ -142,10 +147,21 @@ export default class Home extends Component {
 
     onChangePrice(e) {
         let array = this.state.disabledDate.data.data
-        console.log(array)
+        console.log(this.state.globalMesssages)
+
         this.setState({
 
             price: e.target.value
+
+        });
+
+    }
+    onChangeGlobalMessages(e) {
+
+
+        this.setState({
+
+            globalMesssages: e.target.value
 
         });
 
@@ -173,7 +189,7 @@ export default class Home extends Component {
                 let dt2 = new Date(date2);
                 return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
             }
-            let daysBtwn = date_diff_indays(new Date(), this.state.startDate)
+            let daysBtwn = date_diff_indays(new Date(), new Date(this.state.startDate))
 
             if (this.state.startDate === "") {
                 alert("בבקשה בחר תאריכים שוב")
@@ -207,8 +223,8 @@ export default class Home extends Component {
                 }
 
             }
-
-            if (daysBtwn > 3 || isTrue) {
+            console.log(isTrue)
+            if (daysBtwn > 3 && isTrue) {
                 return (
                     alert("אפשר להזמין את הדירה לסופש רק במידה ואתה מזמין לחבר קיבוץ או 3 ימים לפני"),
                     window.location.reload()
@@ -221,6 +237,8 @@ export default class Home extends Component {
         }
     }
     onChangeIsFromBeerot(e) {
+
+
 
         if (this.state.startDate < new Date()) {
             alert("אין אפשרות להזמין את הדירה לזמן עבר")
@@ -295,15 +313,32 @@ export default class Home extends Component {
         })
 
         window.location.reload()
-    }       
-    onClickButton() {
-
     }
+
+    onClickMessages = () =>
+        api.getMessages().then(messages => {
+            if (messages.data.data.length > 0) {
+            let tempGlobalArray = []
+
+            for (let i in messages.data.data) {
+
+                tempGlobalArray.push(messages.data.data[i].globalMessages)
+            }
+
+            console.log(tempGlobalArray)
+
+            this.setState({
+                globalMesssages: tempGlobalArray
+
+            })
+        }
+        })
+
     onChange = date => {
 
         // const theme = this.context
-         // console.log(theme)
-     
+        // console.log(theme)
+
         let disDates = this.state.datesArray;
         let onChangeDateArray = [];
         let newDate = date[0]
@@ -342,6 +377,8 @@ export default class Home extends Component {
 
         if (this.state.datesArray.length === 0) {
             api.getAprovedOrders().then(orders => {
+                if (orders.data.data.length > 0) {
+         
                 for (let i in orders.data.data) {
                     let newStartdate = new Date(orders.data.data[i].startDate)
                     let newEndDate = new Date(orders.data.data[i].endDate)
@@ -357,18 +394,34 @@ export default class Home extends Component {
                         this.state.datesArray.push(dateArray[j])
                     }
                 }
+            }
             })
         }
 
         return (
 
-            <div>
+            <div className="neta">
                 {/* <UserContext.Consumer> */}
 
                 <NavBar />
 
                 <form className="order-form" onSubmit={this.onSubmit}>
                     <div className="calender-wrapper">
+                        <div className="global-messages">
+
+                            <Popup onOpen={this.onClickMessages} trigger={<Button variant="" size="lg" >
+                                לחץ לצפייה בהודעות כלליות
+                             </Button>} position="left center" >
+                                <div className="pop-up-messages" >
+
+                                    {this.state.globalMesssages.map((number) =>
+                                        <li>{number}</li>
+                                    )}
+
+                                </div>
+                            </Popup>
+
+                        </div>
                         <Calendar
                             activeStartDate={new Date()}
                             selectRange={true}
@@ -398,7 +451,7 @@ export default class Home extends Component {
                     </div>
 
                     <div className="button-wrapper">
-                        <Popup onChange={this.onClickButton} trigger={<Button variant="secondary" size="lg">
+                        <Popup trigger={<Button variant="secondary" size="lg">
                             להזמנה בחר תאריכים ולחץ עליי
   </Button>} position="bottom center" >
                             <label className="w-100 text-right">
@@ -425,7 +478,7 @@ export default class Home extends Component {
                                             שלח הודעה למנהל
             </label>
                                         <textarea className="form-group text-right" name="message"
-                                            value={this.state.note} required onChange={this.onChangeNote}  >
+                                            value={this.state.note} onChange={this.onChangeNote}  >
                                         </textarea>
                                     </div>
 
@@ -435,7 +488,7 @@ export default class Home extends Component {
 
                                         <h5 className="text-right">  מחיר הדירה ליום: {this.state.price}</h5>
                                     </div>
-                                </div> :<div></div>
+                                </div> : <div></div>
                             }
 
                         </Popup>

@@ -1,13 +1,10 @@
 import React from "react"
 import { Route, Redirect } from "react-router-dom"
 
-
-let isAuth = true;
-
-
 const PrivateRoute =  ({ component: Component, ...rest})=>(
   <Route {...rest} render={(props)=>(
-    isAuth!==false
+    
+    sessionStorage.getItem('isLoggedIn')==="true"
     
     ? <Component {...props}/>
 

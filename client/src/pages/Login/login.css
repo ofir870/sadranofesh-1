@@ -1,15 +1,21 @@
 .login{
     display: grid;
+    grid-template-columns: 20% 50% 20%;
     justify-content: space-around;
-    padding:  30px;
-    border-radius: 10px;
-    box-shadow: 1px 1px 3px solid;
-    background-image: white;
-    cursor: pointer;
-    height: 700px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 400px
-}
+        padding:  30px;
+        border-radius: 10px;
+        cursor: pointer;
+
+
+    }
+
+    .login-img{
+        display: grid;
+        height: 500px;
+        background-repeat: no-repeat;
+        background-size: 350px
+    }
+  
+
 
 

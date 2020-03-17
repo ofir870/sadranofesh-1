@@ -6,10 +6,14 @@ select{
 .calender-wrapper{
     justify-content: center;
     display: grid;
+    
+    
 }
-option{
-    text-align: left;
+.pop-up-messages{
+    display: grid;
+    justify-self: start;
 }
+
 
 .button-wrapper{
     justify-content: center;

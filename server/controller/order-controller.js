@@ -44,8 +44,8 @@ getAllOrders = async (req, res) => {
         }
         if (!order.length) {
             return res
-                .status(400)
-                .json({ success: false, error: `Order not found` })
+                .status(200)
+                .json({ success: false, error: `Order not found` , data:[]})
         }
         return res.status(200).json({ success: true, data: order })
     }).catch(err => console.log(err))
@@ -59,8 +59,8 @@ getNotAprovedOrders = async (req, res) => {
         }
         if (!order.length) {
             return res
-                .status(400)
-                .json({ success: false, error: `Order not found` })
+                .status(200)
+                .json({ success: false, error: `Order not found`, data:[] })
         }
         return res.status(200).json({ success: true, data: order })
     }).catch(err => console.log(err))
@@ -72,8 +72,8 @@ getAprovedOrders = async (req, res) => {
         }
         if (!order.length) {
             return res
-                .status(400)
-                .json({ success: false, error: `Order not found` })
+                .status(200)
+                .json({ success: false, error: `Order not found` , data:[]})
         }
         return res.status(200).json({ success: true, data: order })
     }).catch(err => console.log(err))
@@ -86,8 +86,8 @@ getOrdersByUserName = async (req, res) => {
         }
         if (!order.length) {
             return res
-                .status(400)
-                .json({ success: false, error: `Order with this username dident found` })
+                .status(200)
+                .json({ success: false, error: `Order with this username dident found` , data:[]} )
         }
         return res.status(200).json({ success: true, data: order })
     }).catch(err => console.log(err))

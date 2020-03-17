@@ -14,19 +14,34 @@ const List = styled.div.attrs({
 })``
 
 
-
 class Links extends Component {
+
+    logOut() {
+        sessionStorage.clear()
+    }
+
     render() {
         return (
             <React.Fragment>
+                <Link to="/" className="navbar-black" onClickCapture={this.logOut}>
+                    יציאה
+                </Link>
+                    {sessionStorage.getItem("isLoggedIn-admin") ?
+
+                        <Link to="/admin" className="navbar-black">
+                            דף מנהל
+                                     </Link> : <div></div>}
+
                 <Link to="/home" className="navbar-black">
-                    סידור נופש
+                    דף הבית
                 </Link>
                 <Collapse>
                     <List>
                         <div className="user-name">
-                             שלום {localStorage.getItem("name")}
+                            שלום {sessionStorage.getItem("name")}
                         </div>
+
+
                     </List>
                 </Collapse>
             </React.Fragment>

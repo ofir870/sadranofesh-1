@@ -1,66 +1,63 @@
-import React, {useState,useContext} from 'react';
+import React, { useState, useContext } from 'react';
 import './login.css';
-import logo from '../../f2.jfif'
+import img from '../../f2-login.jfif'
 import api from '../../api/index'
-
-import { useDispatch, useSelector } from 'react-redux';
-import { isLoggedIn } from '../../model/redux/actions';
-
-
-// useSelector(state => state.isLoggedIn);
-// console.log(isLoggedIn+"   reduxxx" )
-// const dispatch = useDispatch();
-
-// dispatch(isLoggedIn(isLoggedIn))
+import { Link,Redirect } from 'react-router-dom'
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.handleSubmit = this.handleSubmit.bind(this);
-    
   }
-  
-  
+
   handleSubmit(e) {
     e.preventDefault();
-  
-   api.getUserByUserName( e.target.elements.userName.value,  e.target.elements.password.value).then(user => {
-      console.log(user.data.data.name)
+   
+      api.getUserByUserName(e.target.elements.userName.value, e.target.elements.password.value).then(user => {
+        
+
+        if (user.data.success === true) {
+
       
-      if (user.data.success === true) {
-      
-        localStorage.setItem("sadranofesh875",user.data.data.id)
-        localStorage.setItem("name",user.data.data.name)
+            if(user.data.data.name==="טובה-מנהל"  ){
+              sessionStorage.setItem("sadranofesh875", user.data.data.id)      
+              sessionStorage.setItem("name", user.data.data.name)
+              sessionStorage.setItem("isLoggedIn-admin", true)   
+              sessionStorage.setItem("isLoggedIn", true)   
+              window.location.assign('http://localhost:3000/admin')
+            }
+            else{
+        
+            
+          sessionStorage.setItem("sadranofesh875", user.data.data.id)      
+          sessionStorage.setItem("name", user.data.data.name)
+          sessionStorage.setItem("isLoggedIn", true)   
+          window.location.assign('http://localhost:3000/home')
+            }
+        } else {
+          alert("you enterd wrong parametrs")
+        }
 
-        let test = localStorage.getItem("sadranofesh875")
-        console.log(test)
-        this.props.changeIsLoggedIn()
-        // window.location.assign('http://localhost:3000/home')
-      } else {
-        alert("you enterd wrong parametrs")
-      }
-
-      if (user.data.status === false){
-            alert("you enterd wrong parametrs")
-      }
-    })
-
+        if (user.data.status === false) {
+          alert("you enterd wrong parametrs")
+        }
+      })
   }
-
   render() {
-
-
     return (
-      <div className='login' style={{ backgroundImage: `url(${logo})` }}>
+      <div className='login'>
+        <div></div>
+        <div className='middle-wrapper'>
         <form onSubmit={this.handleSubmit}>
-          <input type="text" name="userName" auto Focus placeholder="userName" required="true"></input>
+          <input type="text" name="userName" placeholder="userName" required={true}></input>
           <br></br>
-          <input type="text" name="password" placeholder="password" required="true"></input>
+          <input type="password" name="password" placeholder="password" required={true}></input>
           <br></br>
-          <input type="submit" placeholder="submit" formAction=""></input>
+          <input type="submit" value="התחבר"></input>
         </form>
-
+          <img className="login-img"style={{ backgroundImage: `url(${img})` }} src="" alt=""/>
+          </div>
       </div>
     )
   }

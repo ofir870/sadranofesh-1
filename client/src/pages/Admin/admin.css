@@ -1,4 +1,10 @@
-.wrapper{
+
+.links{
+  display: grid;
+  justify-content: space-around;
+  grid-template-columns: auto auto;
+}
+/* .wrapper{
 
     background-color: aqua;
     display: grid;
@@ -52,4 +58,4 @@
   .button:hover span:after {
     opacity: 1;
     right: 0;
-  }
+  } */

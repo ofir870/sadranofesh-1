@@ -6,6 +6,7 @@ const Userctrl = require('../controller/user-controller')
 const router = express.Router()
 
 router.post('/user', Userctrl.createUser)
+
 router.put('/user/:id', Userctrl.updateUser)
 router.delete('/user/:id', Userctrl.deleteUser)
 router.post('/user-by-id/:id', Userctrl.getUserById)

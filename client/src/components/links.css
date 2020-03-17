@@ -1,3 +1,10 @@
 .user-name{
-   color: whitesmoke
+   color: whitesmoke;
+   /* pos */
+   
 }
+.navbar-black{
+   padding-left: 20px;
+   direction: rtl;
+}
+

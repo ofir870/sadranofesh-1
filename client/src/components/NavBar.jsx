@@ -17,13 +17,10 @@ color: black;
 const Nav = styled.nav.attrs({
     className: 'navbar navbar-expand-lg rtl ',
 })`
-    margin-bottom: 20 px;
+margin-bottom: 20 px;
+
     direction: rtl;
     background-color: #85C332;
-    
-    
-    
-
 `
 
 class NavBar extends Component {

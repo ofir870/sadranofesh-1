@@ -10,6 +10,7 @@ const apiPort = 5000
 
 const userRouter = require('./routes/user-router')
 const orderRouter = require('./routes/order-router')
+const userDataRouter = require('./routes/global-messages-router')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 app.use(bodyParser.json())
@@ -21,5 +22,6 @@ app.get('/', (req, res) => {
 })
 app.use("/api", userRouter)
 app.use("/api", orderRouter)
+app.use("/api", userDataRouter)
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))
