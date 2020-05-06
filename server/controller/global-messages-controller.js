@@ -1,7 +1,5 @@
 const GlobalMessages = require ("../models/global-messages-model")
 
-
-    
 createMessage = (req, res) => {
     const body = req.body
 

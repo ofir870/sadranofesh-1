@@ -324,7 +324,6 @@ export default class Home extends Component {
 
                 tempGlobalArray.push(messages.data.data[i].globalMessages)
             }
-
             console.log(tempGlobalArray)
 
             this.setState({

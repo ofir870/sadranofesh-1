@@ -48,7 +48,7 @@ export default class OrdersHistory extends Component {
                     <td>{note}</td>
                     <td>{aproved}</td>
                     <td>{createdAt}</td>
-                    <td><input onClick={() => this.deleteOrder(_id)} type="button" value="בטל" /></td>
+                    <td><input onClick={() => this.deleteOrder(_id)} type="button" value="הסר" /></td>
 
                     {/* <td  > <input onClick={() => this.deleteUser(_id)} type="button" value="delete" /></td> */}
                 </tr>
